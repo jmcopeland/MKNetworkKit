@@ -88,6 +88,10 @@ static NSOperationQueue *_sharedNetworkQueue;
                                                          name:kReachabilityChangedNotification 
                                                        object:nil];
             
+            // strip 'http://' or 'https://' from hostName if it already contains it
+            hostName = [hostName stringByReplacingOccurrencesOfString:@"http://" withString:@""];
+            hostName = [hostName stringByReplacingOccurrencesOfString:@"https://" withString:@""];
+            
             DLog(@"Engine initialized with host: %@", hostName);
             self.hostName = hostName;            
             self.reachability = [Reachability reachabilityWithHostname:self.hostName];
