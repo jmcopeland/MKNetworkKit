@@ -260,9 +260,6 @@ static NSOperationQueue *_sharedNetworkQueue;
                               httpMethod:(NSString*)method 
                                      ssl:(BOOL) useSSL {
                                          
-    // strip 'http://' or 'https://' from hostName if it already contains it
-    self.hostName = [self.hostName stringByReplacingOccurrencesOfString:@"http://" withString:@""];
-    self.hostName = [self.hostName stringByReplacingOccurrencesOfString:@"https://" withString:@""];
     // strip leading '/' from path if it exists
     path = [path stringByReplacingOccurrencesOfString:@"/" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, 1)];
 
