@@ -174,7 +174,7 @@
  *  The hostname of the engine is *NOT* prefixed.
  *  The image is returned to the caller via MKNKImageBlock callback block. 
  */
-- (void)imageAtURL:(NSURL *)url onCompletion:(MKNKImageBlock) imageFetchedBlock;
+- (MKNetworkOperation*)imageAtURL:(NSURL *)url onCompletion:(MKNKImageBlock) imageFetchedBlock;
 /*!
  *  @abstract Enqueues your operation into the shared queue
  *  
@@ -209,6 +209,26 @@
 @property (readonly, strong, nonatomic) NSString *readonlyHostName;
 
 /*!
+ *  @abstract Handler that you implement to monitor reachability changes
+ *  @property reachabilityChangedHandler
+ *  
+ *  @discussion
+ *	The framework calls this handler whenever the reachability of the host changes.
+ *  The default implementation freezes the queued operations and stops network activity
+ *  You normally don't have to implement this unless you need to show a HUD notifying the user of connectivity loss
+ */
+@property (copy, nonatomic) void (^reachabilityChangedHandler)(NetworkStatus ns);
+
+/*!
+ *  @abstract Registers an associated operation subclass
+ *  
+ *  @discussion
+ *	When you override both MKNetworkEngine and MKNetworkOperation, you might want the engine's factory method
+ *  to prepare operations of your MKNetworkOperation subclass. To create your own MKNetworkOperation subclasses from the factory method, you can register your MKNetworkOperation subclass using this method.
+ *  This method is optional. If you don't use, factory methods in MKNetworkEngine creates MKNetworkOperation objects.
+ */
+-(void) registerOperationSubclass:(Class) aClass;
+/*!
  *  @abstract Cache Directory Name
  *  
  *  @discussion
@@ -238,4 +258,15 @@
  *  The cacheMemoryCost and cacheDirectoryName will be used when you turn caching on using this method.
  */
 -(void) useCache;
+
+/*!
+ *  @abstract Empties previously cached data
+ *  
+ *  @discussion
+ *	This method is a handy helper that you can use to clear cached data.
+ *  By default, MKNetworkKit doens't cache your requests. Use this only when you enabled caching
+ *  @seealso
+ *  useCache
+ */
+-(void) emptyCache;
 @end

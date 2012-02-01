@@ -34,6 +34,8 @@
 
 @synthesize downloadProgessBar = _downloadProgessBar;
 @synthesize uploadProgessBar = _uploadProgessBar;
+@synthesize userTextField = _userTextField;
+@synthesize passwordTextField = _passwordTextField;
 
 - (void)didReceiveMemoryWarning
 {
@@ -161,6 +163,12 @@
     
 }
 
+
+-(IBAction)emptyCacheTapped:(id)sender {
+    
+    [ApplicationDelegate.flickrEngine emptyCache];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -169,7 +177,9 @@
 
 - (IBAction)testAuthTapped:(id)sender {
     
-    [ApplicationDelegate.sampleAuth basicAuthTest];
-    [ApplicationDelegate.sampleAuth digestAuthTest];
+    //[ApplicationDelegate.sampleAuth basicAuthTest];
+    //[ApplicationDelegate.sampleAuth digestAuthTest];
+    [ApplicationDelegate.sampleAuth digestAuthTestWithUser:self.userTextField.text password:self.passwordTextField.text];
+    //[ApplicationDelegate.sampleAuth clientCertTest];
 }
 @end
